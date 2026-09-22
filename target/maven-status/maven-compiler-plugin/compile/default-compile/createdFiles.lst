@@ -1,0 +1,7 @@
+com\example\bankaccountservice\entities\AccountProjection.class
+com\example\bankaccountservice\entities\BankAccount.class
+com\example\bankaccountservice\BankAccountServiceApplication.class
+com\example\bankaccountservice\web\AccountRestController.class
+com\example\bankaccountservice\enums\AccountType.class
+com\example\bankaccountservice\repositories\BankAccountRepository.class
+com\example\bankaccountservice\entities\BankAccount$BankAccountBuilder.class
