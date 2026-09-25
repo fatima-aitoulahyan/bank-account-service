@@ -3,7 +3,9 @@ package com.example.bankaccountservice.web;
 import com.example.bankaccountservice.DTO.BankAccountRequestDTO;
 import com.example.bankaccountservice.DTO.BankAccountResponseDTO;
 import com.example.bankaccountservice.entities.BankAccount;
+import com.example.bankaccountservice.entities.Customer;
 import com.example.bankaccountservice.repositories.BankAccountRepository;
+import com.example.bankaccountservice.repositories.CustomerRepository;
 import com.example.bankaccountservice.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -12,25 +14,52 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
-
 @Controller
 public class BankAccountGraphqlController {
+
     @Autowired
     private BankAccountRepository bankAccountRepository;
+
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private CustomerRepository customerRepository;
+
     @QueryMapping
-    public List<BankAccount> ListAccounts (){
+    public List<BankAccount> listAccounts() {
         return bankAccountRepository.findAll();
     }
+
     @QueryMapping
-    public BankAccount AccountById(@Argument String id){
-        return bankAccountRepository.findById(id).orElseThrow(()->new RuntimeException(String.format("Account %s not found",id)));
+    public BankAccount accountById(@Argument String id) {
+        return bankAccountRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Account " + id + " not found"));
     }
+
     @MutationMapping
-    public BankAccountResponseDTO addAcount(@Argument BankAccountRequestDTO bankAccount){
+    public BankAccountResponseDTO addAccount(
+            @Argument BankAccountRequestDTO bankAccount) {
+
         return accountService.addAccount(bankAccount);
     }
 
+    @MutationMapping
+    public BankAccountResponseDTO updateAccount(
+            @Argument String id,
+            @Argument BankAccountRequestDTO bankAccount) {
 
+        return accountService.update(id, bankAccount);
+    }
+
+    @MutationMapping
+    public Boolean deleteAccount(@Argument String id) {
+        accountService.delete(id);
+        return true;
+    }
+    @QueryMapping
+    public List<Customer> customers(){
+        return customerRepository.findAll();
+
+    }
 }
