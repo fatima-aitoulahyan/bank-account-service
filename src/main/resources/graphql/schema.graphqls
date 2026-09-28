@@ -10,9 +10,9 @@ type Mutation {
     deleteAccount(id: String): Boolean
 }
 type Customer{
-id : ID
-nom : String
-bankAccounts : [BankAccount]
+    id : ID
+    nom : String
+    bankAccounts : [BankAccount]
 }
 type BankAccount {
     id: String
